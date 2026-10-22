@@ -14,6 +14,17 @@ Darwin 25.6.0 arm64 arm
 
 The only dependency is `@supabase/supabase-js`, which is used for its select-query result type. I couldn't reduce it further: hand-written copies of postgrest-js's parser and result types pass in `bun check`, so the trigger seems to be some detail of the real implementation.
 
+Reproduction repository: https://github.com/ulrichstark/repro-bun-check-infer-useselector
+
+```sh
+git clone https://github.com/ulrichstark/repro-bun-check-infer-useselector.git
+cd repro-bun-check-infer-useselector
+bun install
+bun check --no-pretty
+```
+
+The files from the repository:
+
 `package.json`:
 
 ```json
@@ -79,13 +90,6 @@ declare function useSelector<TSelected>(selector: (state: State) => TSelected): 
 
 const isLoading = useSelector((state) => state.isLoading);
 export const probe: boolean = isLoading;
-```
-
-Run:
-
-```sh
-bun install
-bun check --no-pretty
 ```
 
 ### What is the expected behavior?
